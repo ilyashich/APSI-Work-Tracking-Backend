@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins="https://ambitious-pond-0cc25cb03.1.azurestaticapps.net")
+@CrossOrigin(origins="https://ashy-ground-0223e9e03.1.azurestaticapps.net")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
