@@ -9,14 +9,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "person")
-public class Person
+@Table(name = "user", schema = "public")
+public class User
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-    @Column(name = "login")
-    private String login;
+    @Getter
+    @Setter
+    @Column(name = "username")
+    private String username;
     @Column(name = "password")
-    private String password;
+    @Getter (AccessLevel.PUBLIC)private String password;
 }
