@@ -24,15 +24,15 @@ public class UserService implements UserDetailsService
         return userRepository.findAll();
     }
 
-    public User getPerson(Long id)
-    {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    public void deletePerson(Long id)
-    {
-        userRepository.deleteById(id);
-    }
+//    public User getPerson(Long id)
+//    {
+//        return userRepository.findById(id).orElse(null);
+//    }
+//
+//    public void deletePerson(Long id)
+//    {
+//        userRepository.deleteById(id);
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
