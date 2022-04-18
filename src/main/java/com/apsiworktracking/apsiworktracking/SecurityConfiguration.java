@@ -32,9 +32,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers( "/index.html", "/", "/home", "/login", "/api/persons", "/api/register")
+                .antMatchers( "/index.html", "/", "/home", "/login", "/api/register")
                 .permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and().logout()
+                .logoutUrl("/logout")
+                .deleteCookies("JSESSIONID");
 
     }
 

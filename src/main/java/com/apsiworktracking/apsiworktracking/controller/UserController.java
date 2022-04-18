@@ -5,13 +5,8 @@ import com.apsiworktracking.apsiworktracking.service.UserRegistartionService;
 import com.apsiworktracking.apsiworktracking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.List;
 
@@ -28,34 +23,15 @@ public class UserController
     private UserRegistartionService userRegistartionService;
 
     @GetMapping("/persons")
-    public List<User> getPersons()
+    public List<User> getUsers()
     {
-        return userService.getPersons();
+        return userService.getUsers();
     }
 
-    @GetMapping("/person/{id}")
-    public User getPerson(@PathVariable("id") Long id)
-    {
-        return userService.getPerson(id);
-    }
-
-//    @PostMapping("/persons")
-//    public User createPerson(@RequestBody User user)
+//    @GetMapping("/person/{id}")
+//    public User getPerson(@PathVariable("id") Long id)
 //    {
-//        return userService.createPerson(user);
-//    }
-//
-//
-////    @PutMapping("/persons/{id}")
-////    public User updatePerson(@PathVariable("id") Long id, @RequestBody User user)
-////    {
-////        return userService.updateUser(id, user);
-////    }
-
-//    @DeleteMapping("/persons/{id}")
-//    public void deletePerson(@PathVariable("id") Long id)
-//    {
-//        userService.deletePerson(id);
+//        return userService.getPerson(id);
 //    }
 
 

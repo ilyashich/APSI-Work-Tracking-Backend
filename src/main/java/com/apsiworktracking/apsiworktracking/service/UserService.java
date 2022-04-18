@@ -19,7 +19,7 @@ public class UserService implements UserDetailsService
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getPersons()
+    public List<User> getUsers()
     {
         return userRepository.findAll();
     }
@@ -29,25 +29,10 @@ public class UserService implements UserDetailsService
         return userRepository.findById(id).orElse(null);
     }
 
-
-//    public User updateUser(Long id, User user)
-//    {
-//        User userToUpdate = userRepository.findById(id).orElse(null);
-//
-//        if (userToUpdate != null)
-//        {
-//            userToUpdate.setLogin(user.getLogin());
-//            userToUpdate.setPassword(user.getPassword());
-//            return userRepository.save(userToUpdate);
-//        }
-//        return null;
-//    }
-
     public void deletePerson(Long id)
     {
         userRepository.deleteById(id);
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

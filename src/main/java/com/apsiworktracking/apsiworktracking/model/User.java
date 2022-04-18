@@ -15,10 +15,14 @@ public class User
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-    @Getter
-    @Setter
     @Column(name = "username")
     private String username;
     @Column(name = "password")
-    @Getter (AccessLevel.PUBLIC)private String password;
+    private String password;
+    @Column(name = "role")
+    private UserRoleEnum role;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "surname")
+    private String surname;
 }
