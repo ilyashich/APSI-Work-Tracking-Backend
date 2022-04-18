@@ -9,14 +9,20 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "person")
-public class Person
+@Table(name = "user", schema = "public")
+public class User
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
-    @Column(name = "login")
-    private String login;
+    @Column(name = "username")
+    private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "role")
+    private UserRoleEnum role;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "surname")
+    private String surname;
 }
