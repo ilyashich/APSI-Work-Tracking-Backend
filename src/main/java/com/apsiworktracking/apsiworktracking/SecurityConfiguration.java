@@ -3,6 +3,7 @@ package com.apsiworktracking.apsiworktracking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,9 +40,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .cors().disable()
                 .httpBasic()
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers( "/index.html", "/", "/home", "/login", "/api/register")
                 .permitAll()
                 .anyRequest().authenticated()
@@ -49,23 +52,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .deleteCookies()
                 .and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().cors().configurationSource(corsConfigurationSource());;
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+//                .configurationSource(corsConfigurationSource());;
 
     }
 
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        List<String> allowOrigins = Arrays.asList("*");
-        configuration.setAllowedOrigins(allowOrigins);
-        configuration.setAllowedMethods(singletonList("*"));
-        configuration.setAllowedHeaders(singletonList("*"));
-        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
-        configuration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        List<String> allowOrigins = Arrays.asList("*");
+//        configuration.setAllowedOrigins(allowOrigins);
+//        configuration.setAllowedMethods(singletonList("*"));
+//        configuration.setAllowedHeaders(singletonList("*"));
+//        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+//        configuration.setAllowCredentials(true);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
     @Bean
     public AuthenticationProvider authProvider() {
