@@ -12,7 +12,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 
 @Configuration
 @EnableWebSecurity
@@ -42,8 +50,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .deleteCookies()
                 .and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and().cors();
+                .and().cors().configurationSource(corsConfigurationSource());;
 
+    }
+
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        List<String> allowOrigins = Arrays.asList("*");
+        configuration.setAllowedOrigins(allowOrigins);
+        configuration.setAllowedMethods(singletonList("*"));
+        configuration.setAllowedHeaders(singletonList("*"));
+        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
