@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-@CrossOrigin(origins="https://ashy-ground-0223e9e03.1.azurestaticapps.net")
+@CrossOrigin(origins={"https://ashy-ground-0223e9e03.1.azurestaticapps.net", "http://localhost:4200"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
