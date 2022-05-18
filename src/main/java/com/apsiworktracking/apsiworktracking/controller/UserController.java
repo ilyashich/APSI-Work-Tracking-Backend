@@ -1,5 +1,6 @@
 package com.apsiworktracking.apsiworktracking.controller;
 
+import com.apsiworktracking.apsiworktracking.model.Project;
 import com.apsiworktracking.apsiworktracking.model.User;
 import com.apsiworktracking.apsiworktracking.service.UserRegistartionService;
 import com.apsiworktracking.apsiworktracking.service.UserService;
@@ -13,6 +14,7 @@ import javax.ws.rs.NotAuthorizedException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 
 @CrossOrigin(origins={"https://ashy-ground-0223e9e03.1.azurestaticapps.net", "http://localhost:4200"})
@@ -37,16 +39,37 @@ public class UserController
         return userService.getUsers();
     }
 
-//    @GetMapping("/person/{id}")
-//    public User getPerson(@PathVariable("id") Long id)
-//    {
-//        return userService.getPerson(id);
-//    }
+    @GetMapping("/person/{id}")
+    public User getPerson(@PathVariable("id") Long id)
+    {
+        return userService.getPerson(id);
+    }
+
+    @GetMapping("/person/{username}/projects")
+    public Set<Project> getProjectsForUser(@PathVariable("username") String username)
+    {
+        return userService.getUserProjects(username);
+    }
 
 
     @RequestMapping("/user")
     public Principal user(Principal user) {
         return user;
+    }
+
+    @DeleteMapping("/user/delete/{id}")
+    public void deleteUser (@PathVariable("id") Long id){
+        userService.deletePerson(id);
+    }
+
+    @PutMapping("/user/update/{id}")
+    public void updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+        userService.updateUser(id, user);
+    }
+
+    @GetMapping("/user/{id}/projects")
+    public Set<Project> getProjectsForUser(@PathVariable("id") Long id){
+        return userService.getProjectsForUser(id);
     }
 
 
