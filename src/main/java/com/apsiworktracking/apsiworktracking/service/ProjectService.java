@@ -28,9 +28,9 @@ public class ProjectService {
     }
 
     public Project createProject(Project project) {
-//        if(project.getClient() != null && !UserRoleEnum.CLIENT.equals(project.getClient().getRole())) {
-//            throw new IllegalArgumentException("Client must have correct role");
-//        }
+        if(project.getClient() != null && !UserRoleEnum.CLIENT.equals(project.getClient().getRole())) {
+            throw new IllegalArgumentException("Client must have correct role");
+        }
         projectReposioty.save(project);
         return project;
     }
@@ -61,13 +61,13 @@ public class ProjectService {
         if (projectTuUpdate == null) {
             throw new EntityExistsException("Projects with this id does not exist");
         }
-//        if(project.getClient() != null && !UserRoleEnum.CLIENT.equals(project.getClient().getRole())) {
-//            throw new IllegalArgumentException("Client must have correct role");
-//        }
+        if(project.getClient() != null && !UserRoleEnum.CLIENT.equals(project.getClient().getRole())) {
+            throw new IllegalArgumentException("Client must have correct role");
+        }
         projectTuUpdate.setName(project.getName());
         projectTuUpdate.setDescription(project.getDescription());
         projectTuUpdate.setSignedUsers(project.getSignedUsers());
-//        projectTuUpdate.setTasks(project.getTasks());
+        projectTuUpdate.setTasks(project.getTasks());
         projectReposioty.save(projectTuUpdate);
     }
 
