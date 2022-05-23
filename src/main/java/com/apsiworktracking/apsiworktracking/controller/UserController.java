@@ -33,9 +33,9 @@ public class UserController
     private UserRegistartionService userRegistartionService;
 
     @GetMapping("/persons")
-    public List<User> getUsers(@RequestHeader String authorization)
+    public List<User> getUsers()
     {
-        authorize(authorization);
+//        authorize(authorization);
         return userService.getUsers();
     }
 
