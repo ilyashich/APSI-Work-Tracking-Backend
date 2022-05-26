@@ -1,8 +1,6 @@
 package com.apsiworktracking.apsiworktracking.service;
 
-import com.apsiworktracking.apsiworktracking.model.Project;
-import com.apsiworktracking.apsiworktracking.model.User;
-import com.apsiworktracking.apsiworktracking.model.UserRoleEnum;
+import com.apsiworktracking.apsiworktracking.model.*;
 import com.apsiworktracking.apsiworktracking.repository.ProjectReposioty;
 import com.apsiworktracking.apsiworktracking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +9,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -69,6 +70,54 @@ public class ProjectService {
         projectTuUpdate.setSignedUsers(project.getSignedUsers());
         projectTuUpdate.setTasks(project.getTasks());
         projectReposioty.save(projectTuUpdate);
+    }
+
+    public List<Job> getAllJobsForProject(Long id) {
+        Project project = projectReposioty.getById(id);
+        List<Job> jobs = new ArrayList<Job>();
+        Set<Task> taskIterator = project.getTasks();
+
+        for (Task task: taskIterator) {
+            Set<Job> jobIterator = task.getJobs();
+            for (Job job: jobIterator) {
+                jobs.add(job);
+            }
+        }
+        return jobs;
+    }
+
+    public List<Job> getAllJobsToBeAcceptedForProject(Long id) {
+        Project project = projectReposioty.getById(id);
+        List<Job> jobs = new ArrayList<Job>();
+        Set<Task> taskIterator = project.getTasks();
+
+        for (Task task: taskIterator) {
+            Set<Job> jobIterator = task.getJobs();
+            for (Job job: jobIterator) {
+                if(JobStateEnum.NEW.equals(job.getState())){
+                    jobs.add(job);
+                }
+
+            }
+        }
+        return jobs;
+    }
+
+    public List<Job> getAllJobsToBeAcceptByClientForProject(Long id) {
+        Project project = projectReposioty.getById(id);
+        List<Job> jobs = new ArrayList<Job>();
+        Set<Task> taskIterator = project.getTasks();
+
+        for (Task task: taskIterator) {
+            Set<Job> jobIterator = task.getJobs();
+            for (Job job: jobIterator) {
+                if(JobStateEnum.ACCEPTED.equals(job.getState())){
+                    jobs.add(job);
+                }
+
+            }
+        }
+        return jobs;
     }
 
 }

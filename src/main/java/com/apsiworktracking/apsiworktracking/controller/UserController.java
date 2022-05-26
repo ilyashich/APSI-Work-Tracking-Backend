@@ -1,5 +1,6 @@
 package com.apsiworktracking.apsiworktracking.controller;
 
+import com.apsiworktracking.apsiworktracking.model.Job;
 import com.apsiworktracking.apsiworktracking.model.Project;
 import com.apsiworktracking.apsiworktracking.model.User;
 import com.apsiworktracking.apsiworktracking.service.UserRegistartionService;
@@ -86,10 +87,43 @@ public class UserController
 
     }
 
+    @GetMapping("/user/{id}/jobs_to_accept")
+    public List<Job> getAllJobsToAccept(@PathVariable("id") Long id)
+    {
+        return userService.getAllJobsToBeAccepted(id);
+    }
+
+    @GetMapping("/user/{id}/jobs_to_accept_by_client")
+    public List<Job> getAllJobsToAcceptByClient(@PathVariable("id") Long id)
+    {
+        return userService.getAllJobsToBeAcceptedByClient(id);
+    }
+
+    @PutMapping("/user/{userId}/job_to_accept/{jobId}")
+    public void acceptJob(@PathVariable("userId") Long userId, @PathVariable("jobId") Long jobId)
+    {
+        userService.acceptJobByManager(userId, jobId);
+    }
+
+    @PutMapping("/user/{userId}/job_to_accept_by_client/{jobId}")
+    public void acceptJobByClient(@PathVariable("userId") Long userId, @PathVariable("jobId") Long jobId)
+    {
+        userService.acceptJobByClient(userId, jobId);
+    }
+
+    @PutMapping("/user/{userId}/job_to_reject/{jobId}")
+    public void rejectJob(@PathVariable("userId") Long userId, @PathVariable("jobId") Long jobId, @RequestBody String reason)
+    {
+        userService.rejectJob(userId, jobId, reason);
+    }
+
+
     private void authorize(String authorization) {
         if (authorization.isEmpty() || RequestContextHolder.currentRequestAttributes().getSessionId().equals(authorization)) {
             throw new NotAuthorizedException("Session id is not valid");
         }
     }
+
+
 
 }
