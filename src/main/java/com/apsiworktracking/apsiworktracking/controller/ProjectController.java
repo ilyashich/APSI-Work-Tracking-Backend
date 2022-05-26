@@ -1,6 +1,7 @@
 package com.apsiworktracking.apsiworktracking.controller;
 
 
+import com.apsiworktracking.apsiworktracking.model.Job;
 import com.apsiworktracking.apsiworktracking.model.Project;
 import com.apsiworktracking.apsiworktracking.model.User;
 import com.apsiworktracking.apsiworktracking.service.ProjectService;
@@ -51,5 +52,10 @@ public class ProjectController {
     @PutMapping("/update/{id}")
     public void updateProject(@PathVariable("id") Long id, @RequestBody Project project) {
         projectService.updateProject(id, project);
+    }
+
+    @GetMapping("/{id}/jobs")
+    public List<Job> getAllJobsForProject(@PathVariable("id") Long id) {
+        return projectService.getAllJobsForProject(id);
     }
 }

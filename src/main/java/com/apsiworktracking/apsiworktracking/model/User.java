@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
+import static javax.persistence.AccessType.PROPERTY;
+
 @Getter
 @Setter
 @Builder
@@ -31,9 +33,12 @@ public class User
     private String surname;
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectId", scope = Long.class)
     @ManyToMany(mappedBy = "signedUsers")
-    Set<Project> projects;
+    private Set<Project> projects;
     @OneToMany(mappedBy = "client")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectId", scope = Long.class)
     private Set<Project> clientProject;
+    @OneToMany(mappedBy = "employee")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "jobId", scope = Long.class)
+    private Set<Job> jobs;
 
 }
