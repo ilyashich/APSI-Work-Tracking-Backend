@@ -58,15 +58,15 @@ public class UserController
         return user;
     }
 
-    @DeleteMapping("/user/delete/{id}")
-    public void deleteUser (@PathVariable("id") Long id){
-        userService.deletePerson(id);
-    }
-
-    @PutMapping("/user/update/{id}")
-    public void updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-        userService.updateUser(id, user);
-    }
+//    @DeleteMapping("/user/delete/{id}")
+//    public void deleteUser (@PathVariable("id") Long id){
+//        userService.deletePerson(id);
+//    }
+//
+//    @PutMapping("/user/update/{id}")
+//    public void updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+//        userService.updateUser(id, user);
+//    }
 
     @GetMapping("/user/{id}/projects")
     public Set<Project> getProjectsForUser(@PathVariable("id") Long id){
@@ -74,18 +74,18 @@ public class UserController
     }
 
 
-    @GetMapping("/register")
-    public User createUser(@RequestBody User user)
-    {
-        return userRegistartionService.createPerson(user);
-    }
+//    @GetMapping("/register")
+//    public User createUser(@RequestBody User user)
+//    {
+//        return userRegistartionService.createPerson(user);
+//    }
 
-    @RequestMapping("/token")
-    public Map<String,String> token(HttpSession session) {
-
-        return Collections.singletonMap("token", session.getId());
-
-    }
+//    @RequestMapping("/token")
+//    public Map<String,String> token(HttpSession session) {
+//
+//        return Collections.singletonMap("token", session.getId());
+//
+//    }
 
     @GetMapping("/user/{id}/jobs_to_accept")
     public List<Job> getAllJobsToAccept(@PathVariable("id") Long id)
@@ -118,11 +118,11 @@ public class UserController
     }
 
 
-    private void authorize(String authorization) {
-        if (authorization.isEmpty() || RequestContextHolder.currentRequestAttributes().getSessionId().equals(authorization)) {
-            throw new NotAuthorizedException("Session id is not valid");
-        }
-    }
+//    private void authorize(String authorization) {
+//        if (authorization.isEmpty() || RequestContextHolder.currentRequestAttributes().getSessionId().equals(authorization)) {
+//            throw new NotAuthorizedException("Session id is not valid");
+//        }
+//    }
 
 
 

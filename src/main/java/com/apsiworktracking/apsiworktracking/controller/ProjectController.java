@@ -20,11 +20,11 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    @PostMapping("/create")
-    public Project createProject(@RequestBody Project project)
-    {
-        return projectService.createProject(project);
-    }
+//    @PostMapping("/create")
+//    public Project createProject(@RequestBody Project project)
+//    {
+//        return projectService.createProject(project);
+//    }
 
     @GetMapping("/all")
     public List<Project> getAllProjects()
@@ -37,25 +37,26 @@ public class ProjectController {
         return projectService.getProject(id);
     }
 
-    @PostMapping("/add/project/{project_id}/user/{user_id}")
-    public void addUserToProject(@PathVariable("project_id") Long projectId, @PathVariable("user_id") Long userId){
-
-        projectService.addUserToProject(projectId, userId);
-
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteProjects (@PathVariable("id") Long id)  {
-        projectService.deleteProject(id);
-    }
-
-    @PutMapping("/update/{id}")
-    public void updateProject(@PathVariable("id") Long id, @RequestBody Project project) {
-        projectService.updateProject(id, project);
-    }
-
     @GetMapping("/{id}/jobs")
     public List<Job> getAllJobsForProject(@PathVariable("id") Long id) {
         return projectService.getAllJobsForProject(id);
     }
+
+//    @PostMapping("/add/project/{project_id}/user/{user_id}")
+//    public void addUserToProject(@PathVariable("project_id") Long projectId, @PathVariable("user_id") Long userId){
+//
+//        projectService.addUserToProject(projectId, userId);
+//
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public void deleteProjects (@PathVariable("id") Long id)  {
+//        projectService.deleteProject(id);
+//    }
+//
+//    @PutMapping("/update/{id}")
+//    public void updateProject(@PathVariable("id") Long id, @RequestBody Project project) {
+//        projectService.updateProject(id, project);
+//    }
+
 }
