@@ -74,11 +74,11 @@ public class UserController
     }
 
 
-//    @GetMapping("/register")
-//    public User createUser(@RequestBody User user)
-//    {
-//        return userRegistartionService.createPerson(user);
-//    }
+    @GetMapping("/register")
+    public User createUser(@RequestBody User user)
+    {
+        return userRegistartionService.createPerson(user);
+    }
 
 //    @RequestMapping("/token")
 //    public Map<String,String> token(HttpSession session) {
