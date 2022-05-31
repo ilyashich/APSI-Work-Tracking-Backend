@@ -12,5 +12,10 @@ public class ApsiWorkTrackingApplication
     {
         SpringApplication.run(ApsiWorkTrackingApplication.class, args);
     }
+    
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+      return builder.sources(ApsiWorkTrackingApplication.class);
+  }
 
 }
