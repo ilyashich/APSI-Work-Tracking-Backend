@@ -43,9 +43,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")
                 .and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
-                .sessionManagement();
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+//                .and()
+//                .sessionManagement();
 
     }
 
