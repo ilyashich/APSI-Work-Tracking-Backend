@@ -40,10 +40,10 @@ public class UserController
         return userService.getUsers();
     }
 
-    @GetMapping("/person/{id}")
-    public User getPerson(@PathVariable("id") Long id)
+    @GetMapping("/person/{username}")
+    public User getPerson(@PathVariable("username") String username)
     {
-        return userService.getPerson(id);
+        return userService.getPerson(username);
     }
 
     @GetMapping("/person/{username}/projects")
@@ -68,10 +68,10 @@ public class UserController
 //        userService.updateUser(id, user);
 //    }
 
-    @GetMapping("/user/{id}/projects")
-    public Set<Project> getProjectsForUser(@PathVariable("id") Long id){
-        return userService.getProjectsForUser(id);
-    }
+//    @GetMapping("/user/{id}/projects")
+//    public Set<Project> getProjectsForUser(@PathVariable("id") Long id){
+//        return userService.getProjectsForUser(id);
+//    }
 
 
     @GetMapping("/register")
@@ -87,34 +87,34 @@ public class UserController
 //
 //    }
 
-    @GetMapping("/user/{id}/jobs_to_accept")
-    public List<Job> getAllJobsToAccept(@PathVariable("id") Long id)
+    @GetMapping("/user/{username}/jobs_to_accept")
+    public List<Job> getAllJobsToAccept(@PathVariable("username") String username)
     {
-        return userService.getAllJobsToBeAccepted(id);
+        return userService.getAllJobsToBeAccepted(username);
     }
 
-    @GetMapping("/user/{id}/jobs_to_accept_by_client")
-    public List<Job> getAllJobsToAcceptByClient(@PathVariable("id") Long id)
+    @GetMapping("/user/{username}/jobs_to_accept_by_client")
+    public List<Job> getAllJobsToAcceptByClient(@PathVariable("username") String username)
     {
-        return userService.getAllJobsToBeAcceptedByClient(id);
+        return userService.getAllJobsToBeAcceptedByClient(username);
     }
 
-    @PutMapping("/user/{userId}/job_to_accept/{jobId}")
-    public void acceptJob(@PathVariable("userId") Long userId, @PathVariable("jobId") Long jobId)
+    @PutMapping("/user/{username}/job_to_accept/{jobId}")
+    public void acceptJob(@PathVariable("username") String username, @PathVariable("jobId") Long jobId)
     {
-        userService.acceptJobByManager(userId, jobId);
+        userService.acceptJobByManager(username, jobId);
     }
 
-    @PutMapping("/user/{userId}/job_to_accept_by_client/{jobId}")
-    public void acceptJobByClient(@PathVariable("userId") Long userId, @PathVariable("jobId") Long jobId)
+    @PutMapping("/user/{username}/job_to_accept_by_client/{jobId}")
+    public void acceptJobByClient(@PathVariable("username") String username, @PathVariable("jobId") Long jobId)
     {
-        userService.acceptJobByClient(userId, jobId);
+        userService.acceptJobByClient(username, jobId);
     }
 
-    @PutMapping("/user/{userId}/job_to_reject/{jobId}")
-    public void rejectJob(@PathVariable("userId") Long userId, @PathVariable("jobId") Long jobId, @RequestBody String reason)
+    @PutMapping("/user/{username}/job_to_reject/{jobId}")
+    public void rejectJob(@PathVariable("username") String username, @PathVariable("jobId") Long jobId, @RequestBody String reason)
     {
-        userService.rejectJob(userId, jobId, reason);
+        userService.rejectJob(username, jobId, reason);
     }
 
 

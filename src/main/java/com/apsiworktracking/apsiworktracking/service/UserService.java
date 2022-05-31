@@ -36,9 +36,9 @@ public class UserService implements UserDetailsService
         return userRepository.findAll();
     }
 
-    public User getPerson(Long id)
+    public User getPerson(String username)
     {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findByUsername(username);
     }
 
     public void deletePerson(Long id) {
@@ -79,16 +79,16 @@ public class UserService implements UserDetailsService
         userRepository.save(userToUpdate);
     }
 
-    public Set<Project> getProjectsForUser(Long id) {
-        User user = userRepository.getById(id);
+    public Set<Project> getProjectsForUser(String username) {
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return user.getProjects();
     }
 
-    public List<Job> getAllJobsToBeAccepted (Long id) {
-        User user = userRepository.getById(id);
+    public List<Job> getAllJobsToBeAccepted (String username) {
+        User user = userRepository.findByUsername(username);
         Set<Project> projects = user.getProjects();
         List<Job> jobs = new ArrayList<Job>();
         for(Project project: projects) {
@@ -97,8 +97,8 @@ public class UserService implements UserDetailsService
         return jobs;
     }
 
-    public List<Job> getAllJobsToBeAcceptedByClient (Long id) {
-        User user = userRepository.getById(id);
+    public List<Job> getAllJobsToBeAcceptedByClient (String username) {
+        User user = userRepository.findByUsername(username);
         Set<Project> projects = user.getClientProject();
         List<Job> jobs = new ArrayList<Job>();
         for(Project project: projects) {
@@ -107,8 +107,8 @@ public class UserService implements UserDetailsService
         return jobs;
     }
 
-    public void acceptJobByManager(Long userId, Long jobId) {
-        User user = userRepository.getById(userId);
+    public void acceptJobByManager(String username, Long jobId) {
+        User user = userRepository.findByUsername(username);
         if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
             throw new NotAuthorizedException("Only manager can accept job");
         }
@@ -120,8 +120,8 @@ public class UserService implements UserDetailsService
         jobRepository.save(job);
     }
 
-    public void acceptJobByClient(Long userId, Long jobId) {
-        User user = userRepository.getById(userId);
+    public void acceptJobByClient(String username, Long jobId) {
+        User user = userRepository.findByUsername(username);
         if(!UserRoleEnum.CLIENT.equals(user.getRole())) {
             throw new NotAuthorizedException("Only client can accept this job");
         }
@@ -133,8 +133,8 @@ public class UserService implements UserDetailsService
         jobRepository.save(job);
     }
 
-    public void rejectJob (Long userId, Long jobId, String reason) {
-        User user = userRepository.getById(userId);
+    public void rejectJob (String username, Long jobId, String reason) {
+        User user = userRepository.findByUsername(username);
         if(UserRoleEnum.EMPLOYEE.equals(user.getRole()) ) {
             throw new NotAuthorizedException("Only manager or client can reject job");
         }
