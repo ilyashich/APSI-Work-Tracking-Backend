@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@JsonIgnoreProperties("signedUsers")
+@JsonIgnoreProperties("client")
 @Table(name = "project", schema = "public")
 public class Project {
 
@@ -38,7 +38,7 @@ public class Project {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Long.class)
     private User client;
     @OneToMany(mappedBy = "project")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "taskId", scope = Long.class)
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "taskId", scope = Long.class)
     private Set<Task> tasks;
 
 

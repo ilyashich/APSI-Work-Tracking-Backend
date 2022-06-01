@@ -18,6 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "job", schema = "public")
+@JsonIgnoreProperties({"employee"})
 public class Job {
 
     @Id

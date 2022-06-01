@@ -18,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "task", schema = "public")
-//@JsonIgnoreProperties({"project"})
+@JsonIgnoreProperties({"project"})
 public class Task {
 
     @Id
@@ -35,6 +35,6 @@ public class Task {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectId", scope = Long.class)
     private Project project;
     @OneToMany(mappedBy = "task")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "jobId", scope = Long.class)
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "jobId", scope = Long.class)
     private Set<Job> jobs;
 }
