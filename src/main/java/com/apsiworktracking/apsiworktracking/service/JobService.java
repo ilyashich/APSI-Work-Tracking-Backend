@@ -3,12 +3,15 @@ package com.apsiworktracking.apsiworktracking.service;
 
 import com.apsiworktracking.apsiworktracking.model.*;
 import com.apsiworktracking.apsiworktracking.repository.JobRepository;
+import com.apsiworktracking.apsiworktracking.repository.ProjectReposioty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +19,12 @@ public class JobService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private ProjectReposioty projectReposioty;
 
     public Job createJob(Job job) {
         job.setTime(roundToHalf(job.getTime()));
@@ -29,6 +38,8 @@ public class JobService {
             System.out.println(job.getState());
             job.setRejectionReason(null);
         }
+        job.setState(JobStateEnum.NEW);
+        job.setRejectionReason(null);
         jobRepository.save(job);
         return job;
     }
@@ -77,6 +88,24 @@ public class JobService {
         return jobToUpdate;
     }
 
+    public List<Job> getAllJobsaToBeAccepted() {
+        List<Project> projects = projectReposioty.findAll();
+        List<Job> jobs = new ArrayList<Job>();
+        for(Project project: projects) {
+            jobs.addAll(projectService.getAllJobsToBeAcceptedForProject(project.getProjectId()));
+        }
+        return jobs;
+    }
+
+
+    public List<Job> getAllJobsRejectedByClient() {
+        List<Project> projects = projectReposioty.findAll();
+        List<Job> jobs = new ArrayList<Job>();
+        for(Project project: projects) {
+            jobs.addAll(projectService.getAllJobsRejectedByClientForProject(project.getProjectId()));
+        }
+        return jobs;
+    }
 
     public static Double roundToHalf(Double d) {
         return Math.round(d * 2) / 2.0;

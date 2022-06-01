@@ -103,6 +103,23 @@ public class ProjectService {
         return jobs;
     }
 
+    public List<Job> getAllJobsRejectedByClientForProject(Long id) {
+        Project project = projectReposioty.getById(id);
+        List<Job> jobs = new ArrayList<Job>();
+        Set<Task> taskIterator = project.getTasks();
+
+        for (Task task: taskIterator) {
+            Set<Job> jobIterator = task.getJobs();
+            for (Job job: jobIterator) {
+                if(JobStateEnum.REJECTED_BY_CLIENT.equals(job.getState())){
+                    jobs.add(job);
+                }
+
+            }
+        }
+        return jobs;
+    }
+
     public List<Job> getAllJobsToBeAcceptByClientForProject(Long id) {
         Project project = projectReposioty.getById(id);
         List<Job> jobs = new ArrayList<Job>();

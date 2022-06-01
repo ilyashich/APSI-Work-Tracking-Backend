@@ -2,6 +2,7 @@ package com.apsiworktracking.apsiworktracking.controller;
 
 import com.apsiworktracking.apsiworktracking.model.Job;
 import com.apsiworktracking.apsiworktracking.model.Project;
+import com.apsiworktracking.apsiworktracking.model.Task;
 import com.apsiworktracking.apsiworktracking.model.User;
 import com.apsiworktracking.apsiworktracking.service.UserRegistartionService;
 import com.apsiworktracking.apsiworktracking.service.UserService;
@@ -117,12 +118,31 @@ public class UserController
         userService.rejectJob(username, jobId, reason);
     }
 
+    @PutMapping("/user/{username}/job_to_reject_by_client/{jobId}")
+    public void rejectJobByClient(@PathVariable("username") String username, @PathVariable("jobId") Long jobId, @RequestBody String reason)
+    {
+        userService.rejectJobByClient(username, jobId, reason);
+    }
+
 
 //    private void authorize(String authorization) {
 //        if (authorization.isEmpty() || RequestContextHolder.currentRequestAttributes().getSessionId().equals(authorization)) {
 //            throw new NotAuthorizedException("Session id is not valid");
 //        }
 //    }
+
+    @GetMapping("/user/{username}/tasks")
+    public List<Task> getTasksForUser(@PathVariable("username") String username)
+    {
+        return userService.getAllTasksForProjects(username);
+    }
+
+    @GetMapping("/user/{username}/jobs")
+    public Set<Job> getJobsForUser(@PathVariable("username") String username)
+    {
+        return userService.getAllJobsForUser(username);
+    }
+
 
 
 

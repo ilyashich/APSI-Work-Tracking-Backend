@@ -107,6 +107,21 @@ public class UserService implements UserDetailsService
         return jobs;
     }
 
+    public Set<Job> getAllJobsForUser (String username) {
+        User user = userRepository.findByUsername(username);
+        return user.getJobs();
+    }
+
+    public List<Task> getAllTasksForProjects (String username) {
+        User user = userRepository.findByUsername(username);
+        Set<Project> projects = user.getProjects();
+        List<Task> task = new ArrayList<Task>();
+        for(Project project: projects) {
+            task.addAll(project.getTasks());
+        }
+        return task;
+    }
+
     public void acceptJobByManager(String username, Long jobId) {
         User user = userRepository.findByUsername(username);
         if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
@@ -135,14 +150,28 @@ public class UserService implements UserDetailsService
 
     public void rejectJob (String username, Long jobId, String reason) {
         User user = userRepository.findByUsername(username);
-        if(UserRoleEnum.EMPLOYEE.equals(user.getRole()) ) {
-            throw new NotAuthorizedException("Only manager or client can reject job");
+        if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
+            throw new NotAuthorizedException("Only manager can reject this job");
         }
         Job job = jobRepository.getById(jobId);
-        if(!(JobStateEnum.NEW.equals(job.getState()) || JobStateEnum.ACCEPTED.equals(job.getState()))) {
-            throw new IllegalArgumentException("Job needs to be NEW or ACCEPTED to be rejected");
+        if(!JobStateEnum.NEW.equals(job.getState())) {
+            throw new IllegalArgumentException("Job needs to be NEW to be rejested");
         }
         job.setState(JobStateEnum.REJECTED);
+        job.setRejectionReason(reason);
+        jobRepository.save(job);
+    }
+
+    public void rejectJobByClient (String username, Long jobId, String reason) {
+        User user = userRepository.findByUsername(username);
+        if(!UserRoleEnum.CLIENT.equals(user.getRole())) {
+            throw new NotAuthorizedException("Only client can reject this job");
+        }
+        Job job = jobRepository.getById(jobId);
+        if(!JobStateEnum.ACCEPTED.equals(job.getState())) {
+            throw new IllegalArgumentException("Job needs to be ACCEPTED to be rejected by client");
+        }
+        job.setState(JobStateEnum.REJECTED_BY_CLIENT);
         job.setRejectionReason(reason);
         jobRepository.save(job);
     }

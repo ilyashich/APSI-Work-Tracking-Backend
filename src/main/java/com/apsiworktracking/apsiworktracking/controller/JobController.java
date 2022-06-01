@@ -44,4 +44,14 @@ public class JobController {
     public Job updateJob(@PathVariable("id") Long id, @RequestBody Job job) {
         return jobService.updateJob(id, job);
     }
+
+    @GetMapping("/all_to_accept")
+    public List<Job> getAllJobsToAccept() {
+        return jobService.getAllJobsaToBeAccepted();
+    }
+
+    @GetMapping("/all_rejected_by_client")
+    public List<Job> getAllJobsRejectedByClient() {
+        return jobService.getAllJobsRejectedByClient();
+    }
 }
