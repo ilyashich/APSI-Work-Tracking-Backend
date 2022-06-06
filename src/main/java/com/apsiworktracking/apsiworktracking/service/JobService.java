@@ -97,6 +97,15 @@ public class JobService {
         return jobs;
     }
 
+    public void acceptJob(Long id) {
+        Job job = jobRepository.getById(jobId);
+        if(!JobStateEnum.NEW.equals(job.getState())) {
+            throw new IllegalArgumentException("Job needs to be NEW to be accepted");
+        }
+        job.setState(JobStateEnum.ACCEPTED);
+        jobRepository.save(job);
+    }
+
 
     public List<Job> getAllJobsRejectedByClient() {
         List<Project> projects = projectReposioty.findAll();

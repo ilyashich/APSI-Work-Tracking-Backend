@@ -28,8 +28,9 @@ public class UserService implements UserDetailsService
     @Autowired
     private ProjectService projectService;
 
+
     @Autowired
-    private JobRepository jobRepository;
+    private JobService jobService;
 
     public List<User> getUsers()
     {
@@ -124,15 +125,10 @@ public class UserService implements UserDetailsService
 
     public void acceptJobByManager(String username, Long jobId) {
         User user = userRepository.findByUsername(username);
-//        if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
-//            throw new NotAuthorizedException("Only manager can accept job");
-//        }
-        Job job = jobRepository.getById(jobId);
-        if(!JobStateEnum.NEW.equals(job.getState())) {
-            throw new IllegalArgumentException("Job needs to be NEW to be accepted");
+        if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
+            throw new NotAuthorizedException("Only manager can accept job");
         }
-        job.setState(JobStateEnum.ACCEPTED);
-        jobRepository.save(job);
+        jobService.acceptJob(jobId);
     }
 
     public void acceptJobByClient(String username, Long jobId) {
