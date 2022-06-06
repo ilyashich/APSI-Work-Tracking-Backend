@@ -89,7 +89,7 @@ public class UserService implements UserDetailsService
 
     public List<Job> getAllJobsToBeAccepted (String username) {
         User user = userRepository.findByUsername(username);
-        List<Project> projects = projectService.getAllProjects();
+        Set<Project> projects = getProjectsForUser(username);
         List<Job> jobs = new ArrayList<Job>();
         for(Project project: projects) {
             jobs.addAll(projectService.getAllJobsToBeAcceptedForProject(project.getProjectId()));
