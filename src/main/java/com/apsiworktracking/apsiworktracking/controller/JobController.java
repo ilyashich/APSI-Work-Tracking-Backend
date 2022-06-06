@@ -19,7 +19,7 @@ public class JobController {
     @Autowired
     private JobService jobService;
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     public Job createJob(@RequestBody Job job)
     {
         return jobService.createJob(job);
@@ -35,12 +35,12 @@ public class JobController {
         return jobService.getAllJobs();
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteJob (@PathVariable("id") Long id) {
         jobService.deleteJob(id);
     }
 
-    @GetMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public Job updateJob(@PathVariable("id") Long id, @RequestBody Job job) {
         return jobService.updateJob(id, job);
     }

@@ -100,25 +100,25 @@ public class UserController
         return userService.getAllJobsToBeAcceptedByClient(username);
     }
 
-    @GetMapping("/user/{username}/job_to_accept/{jobId}")
+    @PutMapping("/user/{username}/job_to_accept/{jobId}")
     public void acceptJob(@PathVariable("username") String username, @PathVariable("jobId") Long jobId)
     {
         userService.acceptJobByManager(username, jobId);
     }
 
-    @GetMapping("/user/{username}/job_to_accept_by_client/{jobId}")
+    @PutMapping("/user/{username}/job_to_accept_by_client/{jobId}")
     public void acceptJobByClient(@PathVariable("username") String username, @PathVariable("jobId") Long jobId)
     {
         userService.acceptJobByClient(username, jobId);
     }
 
-    @GetMapping("/user/{username}/job_to_reject/{jobId}")
+    @PutMapping("/user/{username}/job_to_reject/{jobId}")
     public void rejectJob(@PathVariable("username") String username, @PathVariable("jobId") Long jobId, @RequestBody String reason)
     {
         userService.rejectJob(username, jobId, reason);
     }
 
-    @GetMapping("/user/{username}/job_to_reject_by_client/{jobId}")
+    @PutMapping("/user/{username}/job_to_reject_by_client/{jobId}")
     public void rejectJobByClient(@PathVariable("username") String username, @PathVariable("jobId") Long jobId, @RequestBody String reason)
     {
         userService.rejectJobByClient(username, jobId, reason);

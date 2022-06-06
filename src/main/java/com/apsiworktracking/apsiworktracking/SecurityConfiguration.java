@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -32,18 +35,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
                 .cors().disable()
+//                .and()
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/job/create").hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, "/api/user/**/job_to_accept/**").hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, "/api/user/**/job_to_accept_by_client/**").hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, "/api/user/**/job_to_reject/**").hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, "/api/user/**/job_to_reject_by_client/**").hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, "/api/job/update/**").hasAuthority("USER")
+                .antMatchers(HttpMethod.DELETE, "/api/job/delete/**").hasAuthority("USER")
+//                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers( "/index.html", "/", "/home", "/login", "/api/register")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and().logout()
                 .logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")
-                .and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .and().csrf().disable();
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 //                .and()
 //                .sessionManagement();
 
