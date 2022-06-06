@@ -106,19 +106,19 @@ public class UserController
         userService.acceptJobByManager(username, jobId);
     }
 
-    @PutMapping("/user/{username}/job_to_accept_by_client/{jobId}")
+    @GetMapping("/user/{username}/job_to_accept_by_client/{jobId}")
     public void acceptJobByClient(@PathVariable("username") String username, @PathVariable("jobId") Long jobId)
     {
         userService.acceptJobByClient(username, jobId);
     }
 
-    @PutMapping("/user/{username}/job_to_reject/{jobId}")
+    @GetMapping("/user/{username}/job_to_reject/{jobId}")
     public void rejectJob(@PathVariable("username") String username, @PathVariable("jobId") Long jobId, @RequestBody String reason)
     {
         userService.rejectJob(username, jobId, reason);
     }
 
-    @PutMapping("/user/{username}/job_to_reject_by_client/{jobId}")
+    @GetMapping("/user/{username}/job_to_reject_by_client/{jobId}")
     public void rejectJobByClient(@PathVariable("username") String username, @PathVariable("jobId") Long jobId, @RequestBody String reason)
     {
         userService.rejectJobByClient(username, jobId, reason);
