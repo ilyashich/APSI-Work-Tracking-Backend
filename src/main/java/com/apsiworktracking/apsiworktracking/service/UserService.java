@@ -89,7 +89,7 @@ public class UserService implements UserDetailsService
 
     public List<Job> getAllJobsToBeAccepted (String username) {
         User user = userRepository.findByUsername(username);
-        Set<Project> projects = user.getProjects();
+        List<Project> projects = projectService.getAllProjects();
         List<Job> jobs = new ArrayList<Job>();
         for(Project project: projects) {
             jobs.addAll(projectService.getAllJobsToBeAcceptedForProject(project.getProjectId()));
@@ -124,9 +124,9 @@ public class UserService implements UserDetailsService
 
     public void acceptJobByManager(String username, Long jobId) {
         User user = userRepository.findByUsername(username);
-        if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
-            throw new NotAuthorizedException("Only manager can accept job");
-        }
+//        if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
+//            throw new NotAuthorizedException("Only manager can accept job");
+//        }
         Job job = jobRepository.getById(jobId);
         if(!JobStateEnum.NEW.equals(job.getState())) {
             throw new IllegalArgumentException("Job needs to be NEW to be accepted");
