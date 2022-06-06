@@ -98,7 +98,7 @@ public class JobService {
     }
 
     public void acceptJob(Long id) {
-        Job job = jobRepository.getById(jobId);
+        Job job = jobRepository.getById(id);
         if(!JobStateEnum.NEW.equals(job.getState())) {
             throw new IllegalArgumentException("Job needs to be NEW to be accepted");
         }

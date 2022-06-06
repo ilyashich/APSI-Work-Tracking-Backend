@@ -28,6 +28,8 @@ public class UserService implements UserDetailsService
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private JobRepository jobRepository;
 
     @Autowired
     private JobService jobService;
