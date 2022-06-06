@@ -102,6 +102,7 @@ public class JobService {
         if(!JobStateEnum.NEW.equals(job.getState())) {
             throw new IllegalArgumentException("Job needs to be NEW to be accepted");
         }
+
         job.setState(JobStateEnum.ACCEPTED);
         jobRepository.save(job);
 
