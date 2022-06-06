@@ -127,10 +127,10 @@ public class UserService implements UserDetailsService
 
     public void acceptJobByManager(String username, Long jobId) {
         User user = userRepository.findByUsername(username);
-        if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
-            throw new NotAuthorizedException("Only manager can accept job");
-        }
-        jobService.acceptJob(jobId);
+//        if(!UserRoleEnum.MANAGER.equals(user.getRole())) {
+//            throw new NotAuthorizedException("Only manager can accept job");
+//        }
+//        jobService.acceptJob(jobId);
     }
 
     public void acceptJobByClient(String username, Long jobId) {
