@@ -100,7 +100,7 @@ public class UserController
         return userService.getAllJobsToBeAcceptedByClient(username);
     }
 
-    @PutMapping("/user/{username}/job_to_accept/{jobId}")
+    @GetMapping("/user/{username}/job_to_accept/{jobId}")
     public void acceptJob(@PathVariable("username") String username, @PathVariable("jobId") Long jobId)
     {
         userService.acceptJobByManager(username, jobId);
