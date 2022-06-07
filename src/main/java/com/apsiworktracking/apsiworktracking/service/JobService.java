@@ -49,10 +49,10 @@ public class JobService {
         job.setState(JobStateEnum.NEW);
         job.setRejectionReason(null);
 
-        if(job.getUser()!=null & job.getUser().getId() != null) {
-            User user = userRepository.getById(job.getUser().getId());
-            job.setUser(user);
-        }
+//        if(job.getUser()!=null & job.getUser().getId() != null) {
+//            User user = userRepository.getById(job.getUser().getId());
+//            job.setUser(user);
+//        }
 
 //        if(job.getProblem() != null & job.getProblem().getProblemId() != null) {
 //            Problem problem = problemRepository.getById(job.getProblem().getProblemId());
