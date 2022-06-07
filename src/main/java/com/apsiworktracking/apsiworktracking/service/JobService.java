@@ -67,6 +67,7 @@ public class JobService {
         System.out.println(job.getUser().getId());
         jobRepository.save(job);
         return job;
+
     }
 
     public List<Job> getAllJobs () {
