@@ -80,6 +80,7 @@ public class JobService {
 
     public void deleteJob (Long id) {
         jobRepository.deleteById(id);
+
     }
 
     public Job updateJob(Long id, Job job) {
