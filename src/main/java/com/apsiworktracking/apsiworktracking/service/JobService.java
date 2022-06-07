@@ -2,8 +2,7 @@ package com.apsiworktracking.apsiworktracking.service;
 
 
 import com.apsiworktracking.apsiworktracking.model.*;
-import com.apsiworktracking.apsiworktracking.repository.JobRepository;
-import com.apsiworktracking.apsiworktracking.repository.ProjectReposioty;
+import com.apsiworktracking.apsiworktracking.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,15 @@ public class JobService {
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private ProblemRepository problemRepository;
 
     @Autowired
     private ProjectService projectService;
@@ -40,6 +48,22 @@ public class JobService {
         }
         job.setState(JobStateEnum.NEW);
         job.setRejectionReason(null);
+
+        if(job.getUser().getId() != null) {
+            User user = userRepository.getById(job.getUser().getId());
+            job.setUser(user);
+        }
+
+        if(job.getProblem().getProblemId() != null) {
+            Problem problem = problemRepository.getById(job.getProblem().getProblemId());
+            job.setProblem(problem);
+        }
+
+        if(job.getTask().getTaskId() != null) {
+            Task task = taskRepository.getById(job.getTask().getTaskId());
+            job.setTask(task);
+        }
+
         System.out.println(job.getUser().getId());
         jobRepository.save(job);
         return job;
