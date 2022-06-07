@@ -35,7 +35,6 @@ public class TaskService {
 
     @Transactional
     public void createTask(Long projectId, Task task) {
-
         Project project = projectReposioty.getById(projectId);
 
         project.getTasks().add(task);
