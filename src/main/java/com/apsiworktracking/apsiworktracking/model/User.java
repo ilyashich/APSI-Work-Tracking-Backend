@@ -37,7 +37,7 @@ public class User
     @OneToMany(mappedBy = "client")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectId", scope = Long.class)
     private Set<Project> clientProject;
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "user")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "jobId", scope = Long.class)
     private Set<Job> jobs;
 

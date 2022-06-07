@@ -49,7 +49,7 @@ public class Job {
     @ManyToOne
     @JoinColumn(name = "user_fk")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Long.class)
-    private User employee;
+    private User user;
     @ManyToOne
     @JoinColumn(name = "task_fk")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "taskId", scope = Long.class)

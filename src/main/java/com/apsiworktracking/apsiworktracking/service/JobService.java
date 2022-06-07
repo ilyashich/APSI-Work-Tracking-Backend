@@ -40,6 +40,7 @@ public class JobService {
         }
         job.setState(JobStateEnum.NEW);
         job.setRejectionReason(null);
+        System.out.println(job.getUser().getId());
         jobRepository.save(job);
         return job;
     }
@@ -81,7 +82,7 @@ public class JobService {
         jobToUpdate.setType(job.getType());
         jobToUpdate.setDocumentUrl(job.getDocumentUrl());
         jobToUpdate.setProblem(job.getProblem());
-        jobToUpdate.setEmployee(job.getEmployee());
+        jobToUpdate.setUser(job.getUser());
         jobToUpdate.setTask(job.getTask());
 
         jobRepository.save(jobToUpdate);
