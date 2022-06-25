@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Getter
@@ -12,9 +13,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIgnoreProperties("client")
+//@JsonIgnoreProperties("client")
 @Table(name = "project", schema = "public")
-public class Project {
+//@JsonIgnoreProperties({"signedUsers"})
+public class Project implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,20 +27,24 @@ public class Project {
     @JsonProperty("description")
     @Column(name = "description")
     private String description;
-    @ManyToMany
-    @JsonProperty("signedUsers")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Long.class)
-    @JoinTable(
-            name = "user_project",
-            joinColumns = @JoinColumn(name = "projectId"),
-            inverseJoinColumns = @JoinColumn(name = "id"))
-    private Set<User> signedUsers;
+//    @ManyToMany
+//    @JsonProperty("signedUsers")
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Long.class)
+//    @JoinTable(
+//            name = "user_project",
+//            joinColumns = @JoinColumn(name = "projectId"),
+//            inverseJoinColumns = @JoinColumn(name = "id"))
+//    private Set<User> signedUsers;
+    @OneToMany(mappedBy = "project")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    Set<ProjectDetail> signedUsers;
     @ManyToOne
     @JoinColumn(name = "user_fk")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Long.class)
     private User client;
     @OneToMany(mappedBy = "project")
-//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "taskId", scope = Long.class)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "taskId", scope = Task.class)
     private Set<Task> tasks;
 
 

@@ -20,10 +20,10 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-//    @PostMapping("/create/project/{projectId}")
-//    public void createTask(@PathVariable("projectId") Long projectId, @RequestBody Task task) {
-//        taskService.createTask(projectId, task);
-//    }
+    @PostMapping("/create/project/{projectId}")
+    public void createTask(@PathVariable("projectId") Long projectId, @RequestBody Task task) {
+        taskService.createTask(projectId, task);
+    }
 
     @GetMapping("/get/{id}")
     public Task getTask(@PathVariable("id") Long id) {
@@ -35,10 +35,10 @@ public class TaskController {
         return taskService.getAllTask();
     }
 
-//    @PutMapping("/update/{id}")
-//    public void updateTask (@PathVariable("id") Long id, @RequestBody Task task) {
-//        taskService.updateTask(id, task);
-//    }
+    @PutMapping("/update/{id}")
+    public void updateTask (@PathVariable("id") Long id, @RequestBody Task task) {
+        taskService.updateTask(id, task);
+    }
 //
 //    @GetMapping("/delete/{id}")
 //    public void deleteTask (@PathVariable("id") Long id) {

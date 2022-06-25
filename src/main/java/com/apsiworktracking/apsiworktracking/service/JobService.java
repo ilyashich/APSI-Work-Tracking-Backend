@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,39 +31,75 @@ public class JobService {
     private ProjectService projectService;
 
     @Autowired
+    private TaskService taskService;
+
+    @Autowired
     private ProjectReposioty projectReposioty;
 
     public Job createJob(Job job) {
         job.setTime(roundToHalf(job.getTime()));
-        if(JobTypeEnum.DOCUMENT.equals(job.getType())) {
-            job.setProblem(null);
-        } else {
+        if(!JobTypeEnum.DOCUMENT.equals(job.getType())) {
             job.setDocumentUrl(null);
+        } else if(!JobTypeEnum.PROBLEM.equals(job.getType())){
+            job.setProblem(null);
         }
 
         if(!JobStateEnum.REJECTED.equals(job.getState())) {
-            System.out.println(job.getState());
             job.setRejectionReason(null);
         }
         job.setState(JobStateEnum.NEW);
         job.setRejectionReason(null);
+        if(job.getUser().getId()!=null) {
+            User user = userRepository.getById(job.getUser().getId());
+            job.setUser(user);
+        }
 
-//        if(job.getUser()!=null & job.getUser().getId() != null) {
-//            User user = userRepository.getById(job.getUser().getId());
-//            job.setUser(user);
-//        }
 
-//        if(job.getProblem() != null & job.getProblem().getProblemId() != null) {
-//            Problem problem = problemRepository.getById(job.getProblem().getProblemId());
-//            job.setProblem(problem);
-//        }
 
-//        if(job.getTask()!=null & job.getTask().getTaskId() != null) {
-//            Task task = taskRepository.getById(job.getTask().getTaskId());
-//            job.setTask(task);
-//        }
+        if(job.getTask()!=null & job.getTask().getTaskId() != null) {
+            taskService.updateTime(job.getTask().getTaskId(), job.getTime());
+        }
 
-        System.out.println(job.getUser().getId());
+        Calendar c = Calendar.getInstance();
+        c.setTime(job.getDate());
+
+        LocalDate currentdate = LocalDate.now();
+        if(c.get(Calendar.MONTH)+1 != currentdate.getMonth().getValue()) {
+//            System.out.println("nierówne");
+            if(c.get(Calendar.MONTH)+2 == currentdate.getMonth().getValue()) {
+//                System.out.println("+2");
+                if(currentdate.getDayOfMonth()>7) {
+                    throw new IllegalArgumentException("Date must be until 7 day of next month");
+                }
+            }
+            if(c.get(Calendar.MONTH)+2 < currentdate.getMonth().getValue()) {
+                    throw new IllegalArgumentException("Month too old");
+            }
+        }
+        boolean found = false;
+        if (job.getTask()!=null){
+            Task task = taskRepository.getById(job.getTask().getTaskId());
+            job.setTask(task);
+            Long projectId = task.getProject().getProjectId();
+            System.out.println(projectId);
+            User user = userRepository.getById(job.getUser().getId());
+            Set<ProjectDetail> projectDetails = user.getProjects();
+            for (ProjectDetail detail: projectDetails) {
+                if (projectId == detail.getProject().getProjectId()) {
+                    Calendar end = Calendar.getInstance();
+                    end.setTime(detail.getEndDate());
+                    end.add(Calendar.DAY_OF_MONTH, 7);
+                    Date endTime = end.getTime();
+                    if(job.getDate().after(detail.getStartDate()) && job.getDate().before(endTime)) {
+                        found = true;
+                    }
+                }
+            }
+        } else throw new IllegalArgumentException("Job must be signed for task and project");
+        if (!found) {
+            throw new IllegalArgumentException("User is not signed for this project");
+        }
+
         jobRepository.save(job);
         return job;
 
@@ -88,17 +123,66 @@ public class JobService {
         if (jobToUpdate == null) {
             throw new EntityExistsException("Projects with this id does not exist");
         }
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(job.getDate());
+
+        LocalDate currentdate = LocalDate.now();
+        if(c.get(Calendar.MONTH)+1 != currentdate.getMonth().getValue()) {
+//            System.out.println("nierówne");
+            if(c.get(Calendar.MONTH)+2 == currentdate.getMonth().getValue()) {
+//                System.out.println("+2");
+                if(currentdate.getDayOfMonth()>7) {
+                    throw new IllegalArgumentException("Date must be until 7 day of next month");
+                }
+            }
+            if(c.get(Calendar.MONTH)+2 < currentdate.getMonth().getValue()) {
+                throw new IllegalArgumentException("Month too old");
+            }
+        }
+        boolean found = false;
+        if (job.getTask()!=null){
+            Task task = taskRepository.getById(job.getTask().getTaskId());
+            job.setTask(task);
+            Long projectId = task.getProject().getProjectId();
+            System.out.println(projectId);
+            User user = userRepository.getById(job.getUser().getId());
+            Set<ProjectDetail> projectDetails = user.getProjects();
+            for (ProjectDetail detail: projectDetails) {
+                if (projectId == detail.getProject().getProjectId()) {
+                    Calendar end = Calendar.getInstance();
+                    end.setTime(detail.getEndDate());
+                    end.add(Calendar.DAY_OF_MONTH, 7);
+                    Date endTime = end.getTime();
+                    if(job.getDate().after(detail.getStartDate()) && job.getDate().before(endTime)) {
+                        found = true;
+                    }
+                }
+            }
+        } else throw new IllegalArgumentException("Job must be signed for task and project");
+        if (!found) {
+            throw new IllegalArgumentException("User is not signed for this project");
+        }
+
+        if(job.getUser().getId()!=null) {
+            User user = userRepository.getById(job.getUser().getId());
+            job.setUser(user);
+        }
+
         job.setTime(roundToHalf(job.getTime()));
-        if(JobTypeEnum.DOCUMENT.equals(job.getType())) {
-            job.setProblem(null);
-        } else {
+        if(!JobTypeEnum.DOCUMENT.equals(job.getType())) {
             job.setDocumentUrl(null);
+        } else if(!JobTypeEnum.PROBLEM.equals(job.getType())){
+            job.setProblem(null);
         }
 
         if(!JobStateEnum.REJECTED.equals(job.getState())) {
-            System.out.println(job.getState());
+//            System.out.println(job.getState());
             job.setRejectionReason(null);
         }
+
+        Double diff =job.getTime()-jobToUpdate.getTime();
+
         jobToUpdate.setName(job.getName());
         jobToUpdate.setDescription(job.getDescription());
         jobToUpdate.setTime(job.getTime());
@@ -110,6 +194,9 @@ public class JobService {
         jobToUpdate.setProblem(job.getProblem());
         jobToUpdate.setUser(job.getUser());
         jobToUpdate.setTask(job.getTask());
+        if(job.getTask()!=null) {
+            taskService.updateTime(job.getTask().getTaskId(), diff);
+        }
 
         jobRepository.save(jobToUpdate);
         return jobToUpdate;

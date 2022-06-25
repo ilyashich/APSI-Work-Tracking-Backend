@@ -44,15 +44,15 @@ public class Job {
     private String documentUrl;
     @ManyToOne
     @JoinColumn(name = "problem_fk")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "problemId", scope = Long.class)
+    @JsonIdentityInfo(scope = Problem.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "problemId")
     private Problem problem;
     @ManyToOne
     @JoinColumn(name = "user_fk")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Long.class)
+    @JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private User user;
     @ManyToOne
     @JoinColumn(name = "task_fk")
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "taskId", scope = Long.class)
+    @JsonIdentityInfo(scope = Task.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "taskId")
     private Task task;
 
 

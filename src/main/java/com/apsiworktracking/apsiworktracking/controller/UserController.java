@@ -1,9 +1,6 @@
 package com.apsiworktracking.apsiworktracking.controller;
 
-import com.apsiworktracking.apsiworktracking.model.Job;
-import com.apsiworktracking.apsiworktracking.model.Project;
-import com.apsiworktracking.apsiworktracking.model.Task;
-import com.apsiworktracking.apsiworktracking.model.User;
+import com.apsiworktracking.apsiworktracking.model.*;
 import com.apsiworktracking.apsiworktracking.service.UserRegistartionService;
 import com.apsiworktracking.apsiworktracking.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.NotAuthorizedException;
 import java.security.Principal;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.Map;
+import java.util.*;
 
 @CrossOrigin(origins={"https://ashy-ground-0223e9e03.1.azurestaticapps.net", "http://localhost:4200"})
 @RestController
@@ -48,10 +42,21 @@ public class UserController
     }
 
     @GetMapping("/person/{username}/projects")
-    public Set<Project> getProjectsForUser(@PathVariable("username") String username)
+    public List<Project> getProjectsForUser(@PathVariable("username") String username)
     {
         return userService.getUserProjects(username);
     }
+
+//    @GetMapping("/person/{username}/projects/id")
+//    public List<Long> getProjectsForUser2(@PathVariable("username") String username)
+//    {
+//        List<Project> pro = userService.getUserProjects(username);
+//        List<Long> list = new ArrayList<>();
+//        for(Project project: pro){
+//            list.add(project.getProjectId());
+//        }
+//        return list;
+//    }
 
 
     @RequestMapping("/user")

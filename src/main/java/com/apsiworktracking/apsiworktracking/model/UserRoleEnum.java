@@ -1,7 +1,7 @@
 package com.apsiworktracking.apsiworktracking.model;
 
 public enum UserRoleEnum {
-    EMPLOYEE,
-    MANAGER,
+    USER,
+    ADMIN,
     CLIENT;
 }

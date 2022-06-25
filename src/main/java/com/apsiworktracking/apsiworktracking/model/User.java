@@ -15,6 +15,7 @@ import static javax.persistence.AccessType.PROPERTY;
 @NoArgsConstructor
 @Entity
 @Table(name = "users", schema = "public")
+@JsonIgnoreProperties({"projects"})
 public class User
 {
     @Id
@@ -31,9 +32,13 @@ public class User
     private String name;
     @Column(name = "surname")
     private String surname;
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectId", scope = Long.class)
-    @ManyToMany(mappedBy = "signedUsers")
-    private Set<Project> projects;
+    @Column(name = "rate")
+    private Double rate;
+//    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectId", scope = Long.class)
+//    @ManyToMany(mappedBy = "signedUsers")
+//    private Set<Project> projects;
+    @OneToMany(mappedBy = "user")
+    Set<ProjectDetail> projects;
     @OneToMany(mappedBy = "client")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "projectId", scope = Long.class)
     private Set<Project> clientProject;

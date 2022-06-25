@@ -20,11 +20,11 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-//    @PostMapping("/create")
-//    public Project createProject(@RequestBody Project project)
-//    {
-//        return projectService.createProject(project);
-//    }
+    @PostMapping("/create")
+    public Project createProject(@RequestBody Project project)
+    {
+        return projectService.createProject(project);
+    }
 
     @GetMapping("/all")
     public List<Project> getAllProjects()
@@ -54,9 +54,9 @@ public class ProjectController {
 //        projectService.deleteProject(id);
 //    }
 //
-//    @PutMapping("/update/{id}")
-//    public void updateProject(@PathVariable("id") Long id, @RequestBody Project project) {
-//        projectService.updateProject(id, project);
-//    }
+    @PutMapping("/update/{id}")
+    public void updateProject(@PathVariable("id") Long id, @RequestBody Project project) {
+        projectService.updateProject(id, project);
+    }
 
 }
