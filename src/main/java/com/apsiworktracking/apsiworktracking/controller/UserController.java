@@ -47,6 +47,13 @@ public class UserController
         return userService.getUserProjects(username);
     }
 
+    @GetMapping("/person/{username}/projects_manager")
+    public List<Project> getProjectsForUserManager(@PathVariable("username") String username)
+    {
+        return userService.getProjectsForUserManager(username);
+    }
+
+
 //    @GetMapping("/person/{username}/projects/id")
 //    public List<Long> getProjectsForUser2(@PathVariable("username") String username)
 //    {
@@ -146,6 +153,12 @@ public class UserController
     public Set<Job> getJobsForUser(@PathVariable("username") String username)
     {
         return userService.getAllJobsForUser(username);
+    }
+
+    @GetMapping("/user/{username}/calendar/jobs")
+    public List<CalendarJob> getJobsForUserCalendar(@PathVariable("username") String username)
+    {
+        return userService.getAllJobsForUserCalendar(username);
     }
 
 

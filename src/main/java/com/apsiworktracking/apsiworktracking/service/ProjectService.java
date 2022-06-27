@@ -147,7 +147,7 @@ public class ProjectService {
         for (Task task: taskIterator) {
             Set<Job> jobIterator = task.getJobs();
             for (Job job: jobIterator) {
-                if(JobStateEnum.NEW.equals(job.getState())){
+                if(JobStateEnum.NEW.equals(job.getState()) || JobStateEnum.REJECTED_BY_CLIENT.equals(job.getState()) ){
                     jobs.add(job);
                 }
 
@@ -181,10 +181,7 @@ public class ProjectService {
         for (Task task: taskIterator) {
             Set<Job> jobIterator = task.getJobs();
             for (Job job: jobIterator) {
-                if(JobStateEnum.ACCEPTED.equals(job.getState())){
-                    jobs.add(job);
-                }
-
+                jobs.add(job);
             }
         }
         return jobs;

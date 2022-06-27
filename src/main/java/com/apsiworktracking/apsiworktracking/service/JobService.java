@@ -37,6 +37,8 @@ public class JobService {
     private ProjectReposioty projectReposioty;
 
     public Job createJob(Job job) {
+        Calendar calendar = Calendar.getInstance();
+        job.setStateDate(calendar.getTime());
         job.setTime(roundToHalf(job.getTime()));
         if(!JobTypeEnum.DOCUMENT.equals(job.getType())) {
             job.setDocumentUrl(null);
@@ -212,13 +214,29 @@ public class JobService {
     }
 
     public void acceptJob(Long id) {
+        System.out.println("start");
         Job job = jobRepository.getById(id);
-        if(!JobStateEnum.NEW.equals(job.getState())) {
+        System.out.println("job");
+        if(JobStateEnum.NEW.equals(job.getState()) || JobStateEnum.REJECTED_BY_CLIENT.equals(job.getState()) || JobStateEnum.ACCEPTED.equals(job.getState())) {
+
+            System.out.println(job.getState());
+            if(JobStateEnum.ACCEPTED.equals(job.getState())) {
+                job.setState(JobStateEnum.NEW);
+            } else if( JobStateEnum.REJECTED_BY_CLIENT.equals(job.getState())) {
+                job.setState(JobStateEnum.ACCEPTED_BY_CLIENT);
+            } else {
+                job.setState(JobStateEnum.ACCEPTED);
+            }
+
+            Calendar calendar = Calendar.getInstance();
+            job.setStateDate(calendar.getTime());
+            jobRepository.save(job);
+
+
+        } else {
             throw new IllegalArgumentException("Job needs to be NEW to be accepted");
         }
 
-        job.setState(JobStateEnum.ACCEPTED);
-        jobRepository.save(job);
 
     }
 

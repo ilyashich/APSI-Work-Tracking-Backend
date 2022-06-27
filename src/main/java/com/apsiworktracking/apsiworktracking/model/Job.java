@@ -1,10 +1,7 @@
 package com.apsiworktracking.apsiworktracking.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -18,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "job", schema = "public")
-@JsonIgnoreProperties({"employee"})
+@JsonIgnoreProperties({"employee", "stateDate"})
 public class Job {
 
     @Id
@@ -33,6 +30,7 @@ public class Job {
     @Column(name = "time")
     private Double time;
     @Column(name = "data")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date date;
     @Column(name = "state")
     private JobStateEnum state;
@@ -54,6 +52,9 @@ public class Job {
     @JoinColumn(name = "task_fk")
     @JsonIdentityInfo(scope = Task.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "taskId")
     private Task task;
+    @Column(name = "stateDate")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    private Date stateDate;
 
 
 
