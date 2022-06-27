@@ -131,9 +131,7 @@ public class JobService {
 
         LocalDate currentdate = LocalDate.now();
         if(c.get(Calendar.MONTH)+1 != currentdate.getMonth().getValue()) {
-//            System.out.println("nierówne");
             if(c.get(Calendar.MONTH)+2 == currentdate.getMonth().getValue()) {
-//                System.out.println("+2");
                 if(currentdate.getDayOfMonth()>7) {
                     throw new IllegalArgumentException("Date must be until 7 day of next month");
                 }
@@ -179,7 +177,6 @@ public class JobService {
         }
 
         if(!JobStateEnum.REJECTED.equals(job.getState())) {
-//            System.out.println(job.getState());
             job.setRejectionReason(null);
         }
 
@@ -214,9 +211,7 @@ public class JobService {
     }
 
     public void acceptJob(Long id) {
-        System.out.println("start");
         Job job = jobRepository.getById(id);
-        System.out.println("job");
         if(JobStateEnum.NEW.equals(job.getState()) || JobStateEnum.REJECTED_BY_CLIENT.equals(job.getState()) || JobStateEnum.ACCEPTED.equals(job.getState())) {
 
             System.out.println(job.getState());
