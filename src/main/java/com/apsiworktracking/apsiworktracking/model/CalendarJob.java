@@ -16,4 +16,5 @@ public class CalendarJob {
     private Date startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date endDate;
+    private Double time;
 }

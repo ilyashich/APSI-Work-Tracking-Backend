@@ -1,10 +1,7 @@
 package com.apsiworktracking.apsiworktracking.service;
 
 
-import com.apsiworktracking.apsiworktracking.model.Job;
-import com.apsiworktracking.apsiworktracking.model.JobStateEnum;
-import com.apsiworktracking.apsiworktracking.model.Project;
-import com.apsiworktracking.apsiworktracking.model.Task;
+import com.apsiworktracking.apsiworktracking.model.*;
 import com.apsiworktracking.apsiworktracking.repository.ProjectReposioty;
 import com.apsiworktracking.apsiworktracking.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -111,5 +109,21 @@ public class TaskService {
         Task task = taskRepository.getById(id);
         task.setTime(task.getTime() + time);
         taskRepository.save(task);
+    }
+
+    public List<TaskProject> getAllTaskProject () {
+        List<Task> tasks = taskRepository.findAll();
+        List<TaskProject> taskProjectList = new ArrayList<>();
+        for(Task task: tasks) {
+            TaskProject taskProject = new TaskProject();
+            taskProject.setTaskId(task.getTaskId());
+            Project project = projectReposioty.getById(task.getProject().getProjectId());
+            String name = project.getName();
+            name += " - ";
+            name += task.getName();
+            taskProject.setName(name);
+            taskProjectList.add(taskProject);
+        }
+        return taskProjectList;
     }
 }

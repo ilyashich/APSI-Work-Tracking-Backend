@@ -154,6 +154,7 @@ public class UserService implements UserDetailsService
                 CalendarJob calendarJob = new CalendarJob();
                 calendarJob.setJobId(job.getJobId());
                 calendarJob.setName(job.getName());
+                calendarJob.setTime(job.getTime());
                 if(job.getDate()!=null) {
                     calendarJob.setStartDate(job.getDate());
                     calendarJob.setEndDate(addHoursToJavaUtilDate(job.getDate(), job.getTime()));

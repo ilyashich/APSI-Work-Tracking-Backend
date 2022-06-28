@@ -3,6 +3,7 @@ package com.apsiworktracking.apsiworktracking.controller;
 
 import com.apsiworktracking.apsiworktracking.model.Job;
 import com.apsiworktracking.apsiworktracking.model.Task;
+import com.apsiworktracking.apsiworktracking.model.TaskProject;
 import com.apsiworktracking.apsiworktracking.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,10 @@ public class TaskController {
     @GetMapping("/{id}/jobs")
     public Set<Job> getAllJobsForTask(@PathVariable("id") Long id) {
         return taskService.getAllJobsForTask(id);
+    }
+
+    @GetMapping("/projects")
+    public List<TaskProject> getAllTaskProject() {
+        return taskService.getAllTaskProject();
     }
 }
