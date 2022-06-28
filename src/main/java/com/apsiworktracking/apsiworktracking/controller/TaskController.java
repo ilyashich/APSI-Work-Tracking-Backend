@@ -2,6 +2,7 @@ package com.apsiworktracking.apsiworktracking.controller;
 
 
 import com.apsiworktracking.apsiworktracking.model.Job;
+import com.apsiworktracking.apsiworktracking.model.Project;
 import com.apsiworktracking.apsiworktracking.model.Task;
 import com.apsiworktracking.apsiworktracking.model.TaskProject;
 import com.apsiworktracking.apsiworktracking.service.TaskService;
@@ -51,8 +52,8 @@ public class TaskController {
         return taskService.getAllJobsForTask(id);
     }
 
-    @GetMapping("/projects")
-    public List<TaskProject> getAllTaskProject() {
-        return taskService.getAllTaskProject();
+    @GetMapping("/projects/{username}")
+    public List<TaskProject> getAllTaskProject(@PathVariable("username") String username) {
+        return taskService.getAllTaskProject(username);
     }
 }

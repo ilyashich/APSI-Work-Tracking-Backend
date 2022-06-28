@@ -4,15 +4,15 @@ package com.apsiworktracking.apsiworktracking.service;
 import com.apsiworktracking.apsiworktracking.model.*;
 import com.apsiworktracking.apsiworktracking.repository.ProjectReposioty;
 import com.apsiworktracking.apsiworktracking.repository.TaskRepository;
+import com.apsiworktracking.apsiworktracking.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +23,12 @@ public class TaskService {
 
     @Autowired
     private ProjectReposioty projectReposioty;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProjectService projectService;
 
     public Task getTask (Long id){
         Task task = taskRepository.findById(id).orElse(null);
@@ -111,8 +117,12 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public List<TaskProject> getAllTaskProject () {
-        List<Task> tasks = taskRepository.findAll();
+    public List<TaskProject> getAllTaskProject (String username) {
+        List<Project> projects = getAllUserProjectsManEmp(username);
+        List<Task> tasks = new ArrayList<>();
+        for(Project project: projects) {
+            tasks.addAll(project.getTasks());
+        }
         List<TaskProject> taskProjectList = new ArrayList<>();
         for(Task task: tasks) {
             TaskProject taskProject = new TaskProject();
@@ -125,5 +135,32 @@ public class TaskService {
             taskProjectList.add(taskProject);
         }
         return taskProjectList;
+    }
+
+    public List<Project> getAllUserProjectsManEmp(String username) throws UsernameNotFoundException {
+
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        Calendar calendar = Calendar.getInstance();
+        List<Project> result = new ArrayList<Project> ();
+        Map<Long,Project> map = new HashMap<>();
+        Set<ProjectDetail> projectDetails = user.getProjects();
+        for(ProjectDetail project: projectDetails) {
+            if(calendar.getTime().after(project.getStartDate()) && calendar.getTime().before(project.getEndDate())) {
+                Project pro = projectService.getProject(project.getProject().getProjectId());
+                if(!map.containsKey(pro.getProjectId())) {
+                    map.put(pro.getProjectId(), pro);
+                }
+            }
+
+
+        }
+        for(Project project: map.values()) {
+            result.add(project);
+        }
+
+        return result;
     }
 }
