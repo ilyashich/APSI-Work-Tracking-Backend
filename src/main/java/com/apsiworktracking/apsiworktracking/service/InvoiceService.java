@@ -28,12 +28,10 @@ public class InvoiceService {
     @Autowired
     private JobService jobService;
 
-    public ByteArrayInputStream getInvoice () throws FileNotFoundException, DocumentException {
+    public ByteArrayInputStream getInvoice () throws  DocumentException {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        String pathName = "file.pdf";
-//        File file = new File(pathName);
-//        String absolutePath = file.getAbsolutePath();
+
         PdfWriter writer = PdfWriter.getInstance(document, out);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
