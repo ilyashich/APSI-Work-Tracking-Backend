@@ -50,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/project/update/**").hasAuthority("USER")
                 .antMatchers(HttpMethod.POST, "/api/task/create/project/**").hasAuthority("USER")
                 .antMatchers(HttpMethod.PUT, "/api/task/update/**").hasAuthority("USER")
+                .antMatchers(HttpMethod.GET, "/api/invoice/get/**").hasAuthority("USER")
 //                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers( "/index.html", "/", "/home", "/login", "/api/register")
                 .permitAll()

@@ -1,6 +1,7 @@
 package com.apsiworktracking.apsiworktracking.controller;
 
 
+import com.apsiworktracking.apsiworktracking.model.InvoiceJob;
 import com.apsiworktracking.apsiworktracking.model.Job;
 import com.apsiworktracking.apsiworktracking.model.Project;
 import com.apsiworktracking.apsiworktracking.service.JobService;
@@ -54,4 +55,10 @@ public class JobController {
     public List<Job> getAllJobsRejectedByClient() {
         return jobService.getAllJobsRejectedByClient();
     }
+
+    @GetMapping("/in")
+    public InvoiceJob getAllInvoice() {
+        return jobService.getJobsForInvoice();
+    }
+
 }

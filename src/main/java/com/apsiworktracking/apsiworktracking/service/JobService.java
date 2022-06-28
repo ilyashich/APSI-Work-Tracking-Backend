@@ -249,5 +249,53 @@ public class JobService {
         return Math.round(d * 2) / 2.0;
     }
 
+    public InvoiceJob getJobsForInvoice() {
+        List<Job> allJobs = jobRepository.findAll();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        Date date = calendar.getTime();
+        List<ShortJob> shortJobs = new ArrayList<>();
+
+        Double sum = 0.0;
+
+        InvoiceJob invoiceJob = new InvoiceJob();
+        invoiceJob.setSum(0.0);
+
+        for(Job job: allJobs) {
+            if(job.getDate()!=null) {
+                Calendar jobcal = Calendar.getInstance();
+                jobcal.setTime(job.getDate());
+                if(jobcal.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) && jobcal.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
+                    if (!JobStateEnum.REJECTED.equals(job.getState()) && !JobStateEnum.REJECTED_BY_CLIENT.equals(job.getState())) {
+                        User user = userRepository.getById(job.getUser().getId());
+                        if(user!=null) {
+                            ShortJob shortJob = new ShortJob();
+                            shortJob.setName(job.getName());
+                            shortJob.setDescription(job.getDescription());
+                            Double price =0.0;
+                            if(user.getRate()!=null) {
+                                price = user.getRate() * job.getTime();
+                            } else {
+                                price = job.getTime();
+                            }
+                            shortJob.setPrice(price);
+                            sum += price;
+                            shortJobs.add(shortJob);
+
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+        invoiceJob.setSum(sum);
+        invoiceJob.setJobs(shortJobs);
+
+        return invoiceJob;
+    }
+
 
 }
