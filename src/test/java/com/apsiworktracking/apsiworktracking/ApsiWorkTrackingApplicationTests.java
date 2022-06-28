@@ -11,6 +11,5 @@ class ApsiWorkTrackingApplicationTests
     @Test
     void test2()
     {
-        Assertions.assertEquals(4, 2 + 2);
     }
 }
