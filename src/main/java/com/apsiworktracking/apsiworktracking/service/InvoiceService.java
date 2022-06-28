@@ -56,6 +56,8 @@ public class InvoiceService {
 
 //        Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
 
+
+
         PdfPCell hcell;
         hcell = new PdfPCell(new Phrase("Nazwa", headFont));
         hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
