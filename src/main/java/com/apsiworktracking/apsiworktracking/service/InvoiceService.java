@@ -5,6 +5,7 @@ import com.apsiworktracking.apsiworktracking.model.InvoiceJob;
 import com.apsiworktracking.apsiworktracking.model.Job;
 import com.apsiworktracking.apsiworktracking.model.ShortJob;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,7 +30,7 @@ public class InvoiceService {
     @Autowired
     private JobService jobService;
 
-    public ByteArrayInputStream getInvoice () throws  DocumentException {
+    public ByteArrayInputStream getInvoice () throws DocumentException, IOException {
         Document document = new Document();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -46,7 +48,13 @@ public class InvoiceService {
         table.setWidthPercentage(60);
         table.setWidths(new int[]{1, 3, 3});
 
-        Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1250, BaseFont.EMBEDDED);
+        Font headFont=new Font(helvetica,16);
+
+        BaseFont row = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+        Font fontRow =new Font(row,12);
+
+//        Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
 
         PdfPCell hcell;
         hcell = new PdfPCell(new Phrase("Nazwa", headFont));
@@ -67,18 +75,18 @@ public class InvoiceService {
 
             PdfPCell cell;
 
-            cell = new PdfPCell(new Phrase(job.getName()));
+            cell = new PdfPCell(new Phrase(job.getName(), fontRow));
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
             table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(job.getDescription()));
+            cell = new PdfPCell(new Phrase(job.getDescription(), fontRow));
             cell.setPaddingLeft(5);
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setHorizontalAlignment(Element.ALIGN_LEFT);
             table.addCell(cell);
 
-            cell = new PdfPCell(new Phrase(String.valueOf(job.getPrice())));
+            cell = new PdfPCell(new Phrase(String.valueOf(job.getPrice()), fontRow));
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             cell.setPaddingRight(5);

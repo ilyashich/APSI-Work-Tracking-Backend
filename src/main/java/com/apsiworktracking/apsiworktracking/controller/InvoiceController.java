@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @CrossOrigin(origins={"https://ashy-ground-0223e9e03.1.azurestaticapps.net", "http://localhost:4200"})
 @RestController
@@ -25,10 +26,10 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     @GetMapping(path = "/get", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> getInvoice () throws FileNotFoundException, DocumentException {
+    public ResponseEntity<InputStreamResource> getInvoice () throws FileNotFoundException, DocumentException, IOException {
         ByteArrayInputStream bis = invoiceService.getInvoice();
         var headers = new HttpHeaders();
-        headers.add("Content-Disposition", "inline; filename=citiesreport.pdf");
+        headers.add("Content-Disposition", "inline; filename=jobsreport.pdf");
 
         return ResponseEntity
                 .ok()
