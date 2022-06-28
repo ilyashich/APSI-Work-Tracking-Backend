@@ -52,7 +52,7 @@ public class TaskController {
         return taskService.getAllJobsForTask(id);
     }
 
-    @GetMapping("/projects/{username}")
+    @GetMapping("/projects/user/{username}")
     public List<TaskProject> getAllTaskProject(@PathVariable("username") String username) {
         return taskService.getAllTaskProject(username);
     }
