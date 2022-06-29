@@ -39,6 +39,18 @@ public class UserService implements UserDetailsService
         return userRepository.findAll();
     }
 
+    public List<User> getClients()
+    {
+        List<User> all=  userRepository.findAll();
+        List<User> clients = new ArrayList<>();
+        for(User user: all) {
+            if(UserRoleEnum.CLIENT.equals(user.getRole())) {
+                clients.add(user);
+            }
+        }
+        return clients;
+    }
+
     public User getPerson(String username)
     {
         return userRepository.findByUsername(username);

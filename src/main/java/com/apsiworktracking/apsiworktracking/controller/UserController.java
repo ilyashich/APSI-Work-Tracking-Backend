@@ -161,6 +161,12 @@ public class UserController
         return userService.getAllJobsForUserCalendar(username);
     }
 
+    @GetMapping("/clients")
+    public List<User> getClients()
+    {
+        return userService.getClients();
+    }
+
 
 
 
